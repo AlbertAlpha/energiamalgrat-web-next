@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["energiamalgrat-web-next_*"],
+  tablesFilter: ["energiamalgrat-web_*"],
 } satisfies Config;

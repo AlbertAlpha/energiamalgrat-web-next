@@ -16,7 +16,7 @@ import { type AdapterAccount } from "next-auth/adapters";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `energiamalgrat-web-next_${name}`);
+export const createTable = pgTableCreator((name) => `energiamalgrat-web_${name}`);
 
 export const posts = createTable(
   "post",
