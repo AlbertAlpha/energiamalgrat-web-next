@@ -1,7 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { seed, reset } from 'drizzle-seed';
+import { reset, seed } from 'drizzle-seed';
+
 import * as schema from './schema';
-import { users, events } from './schema';
+import { events, users } from './schema';
 
 async function main() {
   const db = drizzle(process.env.DATABASE_URL!);

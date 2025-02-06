@@ -59,3 +59,7 @@ fix(server): send cors headers
 ```text
 feat(blog): add comment section
 ```
+
+### Prompts
+
+Generate a web for a local association related to share solar energy between local people. The content should be in Catalan language (spanish region for formatting units, dates and times). For start it should has a basic layout with navigation bar in the header with the pages Inici, Projectes, Agenda, Contacte. The web should support light and dark theme with a icon in the header to switch it. I attached the logo that should appear in the left on the header. When the basic layout is created I would like to focus on the Agenda page which should contain a list of events as Cards in a column style. The event card will have a title, description, start date and time, the duration, location, a button to open external
