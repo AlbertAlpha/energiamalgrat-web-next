@@ -1,4 +1,4 @@
-import UnderConstructionPage from '~/components/UnderConstructionPage';
+import UnderConstructionPage from '~/components/under-construction';
 
 const AgendaPage = () => <UnderConstructionPage title="Agenda" />;
 

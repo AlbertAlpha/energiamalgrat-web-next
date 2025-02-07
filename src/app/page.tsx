@@ -1,10 +1,11 @@
 import Image from 'next/image';
+
 import Hero from '~/components/Hero';
 import Social from '~/components/Social';
 
 export default function HomePage() {
   return (
-    <main className="flex grow flex-col items-center">
+    <main className="container mx-auto flex-grow px-4 py-8">
       <Hero />
       <Social />
       <Image
