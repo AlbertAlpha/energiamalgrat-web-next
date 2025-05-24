@@ -3,6 +3,7 @@ import { CalendarIcon, ClockIcon, ExternalLinkIcon, MapPinIcon } from 'lucide-re
 
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
+import { formatDate, formatDuration } from '~/lib/utils';
 
 interface Event {
   id: number;
@@ -36,22 +37,6 @@ const events: Event[] = [
 ];
 
 const AgendaPage = () => {
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('ca-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
-  };
-
-  const formatDuration = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}min`;
-  };
-
   return (
     <main className="container mx-auto max-w-5xl flex-grow px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold">Agenda d&apos;Activitats</h1>
