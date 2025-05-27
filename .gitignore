@@ -21,6 +21,7 @@ db.sqlite
 # next.js
 /.next/
 /out/
+/certificates
 next-env.d.ts
 
 # production
