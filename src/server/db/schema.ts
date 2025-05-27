@@ -1,6 +1,6 @@
-import { type AdapterAccount } from 'next-auth/adapters';
-import { relations, sql } from 'drizzle-orm';
-import { index, integer, pgTableCreator, primaryKey, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { type AdapterAccount } from "next-auth/adapters";
+import { sql } from "drizzle-orm";
+import { index, int, mysqlTableCreator, primaryKey, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -8,123 +8,105 @@ import { index, integer, pgTableCreator, primaryKey, text, timestamp, varchar } 
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-const createTable = pgTableCreator((name) => `emalgrat-web_${name}`);
-
-const userIdColumnRef = integer()
-  .notNull()
-  .references(() => users.id);
+const createTable = mysqlTableCreator((name) => `emalgrat-web_${name}`);
 
 const timestampsColumns = {
-  createdBy: integer()
+  createdBy: int()
     .notNull()
-    .references(() => users.id),
-  createdAt: timestamp({ withTimezone: true })
+    .references(() => users.userId),
+  createdAt: timestamp()
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  updatedAt: timestamp().$onUpdate(() => new Date()),
 };
 
-export const users = createTable('user', {
-  id: integer().primaryKey().generatedByDefaultAsIdentity(),
-  uuid: varchar({ length: 36 })
-    .notNull()
+export const users = createTable("user", {
+  id: varchar("id", { length: 255 })
+    .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  userId: int().notNull().autoincrement().unique(),
   name: varchar({ length: 255 }),
-  email: varchar({ length: 100 }).notNull(),
+  email: varchar({ length: 255 }).unique(),
   emailVerified: timestamp({
-    mode: 'date',
-    withTimezone: true,
-  }).default(sql`CURRENT_TIMESTAMP`),
+    mode: "date",
+    fsp: 3,
+  }),
   image: varchar({ length: 255 }),
-  createdAt: timestamp({ withTimezone: true })
+  createdAt: timestamp()
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  updatedAt: timestamp().$onUpdate(() => new Date()),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-}));
-
 export const accounts = createTable(
-  'account',
+  "account",
   {
-    userId: userIdColumnRef,
-    type: varchar({ length: 50 }).$type<AdapterAccount['type']>().notNull(),
-    provider: varchar({ length: 50 }).notNull(),
-    providerAccountId: varchar({
+    userId: varchar("userId", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: varchar("type", { length: 255 }).$type<AdapterAccount>().notNull(),
+    provider: varchar("provider", { length: 255 }).notNull(),
+    providerAccountId: varchar("providerAccountId", {
       length: 255,
     }).notNull(),
-    refresh_token: text(),
-    access_token: text(),
-    expires_at: integer(),
-    token_type: varchar({ length: 255 }),
-    scope: varchar({ length: 255 }),
-    id_token: text(),
-    session_state: varchar({ length: 255 }),
+    refresh_token: varchar("refresh_token", { length: 255 }),
+    access_token: varchar("access_token", { length: 255 }),
+    expires_at: int("expires_at"),
+    token_type: varchar("token_type", { length: 255 }),
+    scope: varchar("scope", { length: 255 }),
+    id_token: varchar("id_token", { length: 2048 }),
+    session_state: varchar("session_state", { length: 255 }),
   },
   (account) => [
     primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-    index('account_user_idx').on(account.userId),
+    index("account_user_idx").on(account.userId),
   ],
 );
 
-export const accountsRelations = relations(accounts, ({ one }) => ({
-  user: one(users, { fields: [accounts.userId], references: [users.id] }),
-}));
-
 export const sessions = createTable(
-  'session',
+  "session",
   {
-    sessionToken: varchar({ length: 255 }).notNull().primaryKey(),
-    userId: userIdColumnRef,
-    expires: timestamp({
-      mode: 'date',
-      withTimezone: true,
-    }).notNull(),
+    sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),
+    userId: varchar("userId", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (session) => [index('session_user_idx').on(session.userId)],
+  (session) => [index("session_user_idx").on(session.userId)],
 );
 
-export const sessionsRelations = relations(sessions, ({ one }) => ({
-  user: one(users, { fields: [sessions.userId], references: [users.id] }),
-}));
-
 export const verificationTokens = createTable(
-  'verification_token',
+  "verification_token",
   {
-    identifier: varchar({ length: 255 }).notNull(),
-    token: varchar({ length: 255 }).notNull(),
-    expires: timestamp({
-      mode: 'date',
-      withTimezone: true,
-    }).notNull(),
+    identifier: varchar("identifier", { length: 255 }).notNull(),
+    token: varchar("token", { length: 255 }).notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })],
 );
 
 export const posts = createTable(
-  'post',
+  "post",
   {
-    id: integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar('name', { length: 255 }),
+    id: int().primaryKey().autoincrement(),
+    name: varchar("name", { length: 255 }),
     ...timestampsColumns,
   },
-  (post) => [index('post_created_by_idx').on(post.createdBy)],
+  (post) => [index("post_created_by_idx").on(post.createdBy)],
 );
 
 export const events = createTable(
-  'event',
+  "event",
   {
-    id: integer().primaryKey().generatedByDefaultAsIdentity(),
+    id: int().primaryKey().autoincrement(),
     name: varchar({ length: 255 }),
     description: text(),
     location: varchar({ length: 255 }),
-    startDate: timestamp({ withTimezone: true }).notNull(),
-    endDate: timestamp({ withTimezone: true }).notNull(),
+    startDate: timestamp().notNull(),
+    endDate: timestamp().notNull(),
     ...timestampsColumns,
   },
-  (event) => [index('event_start_idx').on(event.startDate)],
+  (event) => [index("event_start_idx").on(event.startDate)],
 );

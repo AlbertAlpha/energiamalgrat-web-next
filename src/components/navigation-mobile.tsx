@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MenuIcon } from 'lucide-react';
+import { useState } from "react";
+import { MenuIcon } from "lucide-react";
 
-import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from './ui/sheet';
-import { NavigationItems } from './navigation-items';
+import { Button } from "./ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { NavigationItems } from "./navigation-items";
 
 export const NavigationMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +19,15 @@ export const NavigationMobile = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="right">
-        <SheetTitle>Comunitat Energètica Malgrat</SheetTitle>
-        <SheetDescription>Menú de navegació</SheetDescription>
-        <nav className="mt-8 flex flex-col space-y-4">
-          <ul className="flex flex-col space-y-6">
-            <NavigationItems />
-          </ul>
-        </nav>
+        <SheetHeader>
+          <SheetTitle>Comunitat Energètica Malgrat</SheetTitle>
+          <SheetDescription>Menú de navegació</SheetDescription>
+          <nav className="mt-4 flex flex-col space-y-4">
+            <ul className="flex flex-col space-y-6">
+              <NavigationItems />
+            </ul>
+          </nav>
+        </SheetHeader>
       </SheetContent>
     </Sheet>
   );

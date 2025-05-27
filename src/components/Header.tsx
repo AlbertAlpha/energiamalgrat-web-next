@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
-import { NavigationItems } from './navigation-items';
-import { NavigationMobile } from './navigation-mobile';
-import { ThemeToggle } from './theme-toggle';
+import { NavigationItems } from "./navigation-items";
+import { NavigationMobile } from "./navigation-mobile";
+import { ThemeToggle } from "./theme-toggle";
 
 const Header = () => {
   return (
@@ -18,7 +18,7 @@ const Header = () => {
             <NavigationItems />
           </ul>
         </nav>
-        <div className="flex items-center space-x-2">
+        <div className="mr-4 ml-auto flex items-center space-x-2 md:mx-0">
           <ThemeToggle />
         </div>
         <NavigationMobile />

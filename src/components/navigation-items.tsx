@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const NavigationItems = () => {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/"
-          className={`transition-colors hover:text-primary ${pathname === '/' ? 'border-b-2 border-primary font-semibold text-primary' : ''}`}
+          className={`hover:text-primary transition-colors ${pathname === "/" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
         >
           Inici
         </Link>
@@ -19,7 +19,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/projects"
-          className={`transition-colors hover:text-primary ${pathname === '/projects' ? 'border-b-2 border-primary font-semibold text-primary' : ''}`}
+          className={`hover:text-primary transition-colors ${pathname === "/projects" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
         >
           Projectes
         </Link>
@@ -27,7 +27,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/agenda"
-          className={`transition-colors hover:text-primary ${pathname === '/agenda' ? 'border-b-2 border-primary font-semibold text-primary' : ''}`}
+          className={`hover:text-primary transition-colors ${pathname === "/agenda" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
         >
           Agenda
         </Link>
@@ -35,7 +35,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/contact"
-          className={`transition-colors hover:text-primary ${pathname === '/contact' ? 'border-b-2 border-primary font-semibold text-primary' : ''}`}
+          className={`hover:text-primary transition-colors ${pathname === "/contact" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
         >
           Contacte
         </Link>

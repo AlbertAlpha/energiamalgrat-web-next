@@ -1,19 +1,19 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from "drizzle-orm/mysql2";
+import { createPool, type Pool } from "mysql2/promise";
 
-import * as schema from './schema';
+import * as schema from "./schema";
 
-import { env } from '~/env';
+import { env } from "~/env";
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR
  * update.
  */
 const globalForDb = globalThis as unknown as {
-  conn: postgres.Sql | undefined;
+  conn: Pool | undefined;
 };
 
-const conn = globalForDb.conn ?? postgres(env.DATABASE_URL);
-if (env.NODE_ENV !== 'production') globalForDb.conn = conn;
+const conn = globalForDb.conn ?? createPool({ uri: env.DATABASE_URL });
+if (env.NODE_ENV !== "production") globalForDb.conn = conn;
 
-export const db = drizzle(conn, { schema, casing: 'snake_case' });
+export const db = drizzle(conn, { schema, mode: "default", casing: "snake_case" });

@@ -1,13 +1,13 @@
-import { type Config } from 'drizzle-kit';
+import { type Config } from "drizzle-kit";
 
-import { env } from '~/env';
+import { env } from "~/env";
 
 export default {
-  schema: './src/server/db/schema.ts',
-  dialect: 'postgresql',
+  schema: "./src/server/db/schema.ts",
+  dialect: "mysql",
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ['emalgrat-web_*'],
-  casing: 'snake_case',
+  tablesFilter: ["emalgrat-web_*"],
+  casing: "snake_case",
 } satisfies Config;

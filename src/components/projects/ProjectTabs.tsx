@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
-import ProjectDetails from './ProjectDetails';
+import ProjectDetails from "./ProjectDetails";
 
 const projects = [
   {
-    id: '1',
-    name: 'Pista Polivalent',
-    location: '41.648187296819245, 2.747714896353087',
-    status: 'En progrés',
-    technicalDetails: 'Panells solars de 300W, capacitat total de 50kW',
+    id: "1",
+    name: "Pista Polivalent",
+    location: "41.648187296819245, 2.747714896353087",
+    status: "En progrés",
+    technicalDetails: "Panells solars de 300W, capacitat total de 50kW",
     description:
       "Projecte d'energia solar compartida a la Pista Polivalent, proporcionant energia neta a la comunitat local.",
   },
   {
-    id: '2',
-    name: 'Caserna de Policia',
-    location: '41.6487512192278, 2.7352173742646646',
-    status: 'Planificat',
-    technicalDetails: 'Panells solars de 350W, capacitat total de 75kW',
+    id: "2",
+    name: "Caserna de Policia",
+    location: "41.6487512192278, 2.7352173742646646",
+    status: "Planificat",
+    technicalDetails: "Panells solars de 350W, capacitat total de 75kW",
     description:
       "Iniciativa d'energia solar a la Caserna de Policia, contribuint a la sostenibilitat energètica de la zona.",
   },

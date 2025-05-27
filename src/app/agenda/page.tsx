@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { CalendarIcon, ClockIcon, ExternalLinkIcon, MapPinIcon } from 'lucide-react';
+import Link from "next/link";
+import { CalendarIcon, ClockIcon, ExternalLinkIcon, MapPinIcon } from "lucide-react";
 
-import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
-import { formatDate, formatDuration } from '~/lib/utils';
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
+import { formatDate, formatDuration } from "~/lib/utils";
 
 interface Event {
   id: number;
@@ -20,19 +20,19 @@ const events: Event[] = [
     id: 1,
     title: "Taller d'Energia Solar",
     description: "Aprèn sobre l'energia solar i com pots implementar-la a casa teva.",
-    startDate: new Date('2025-02-15T10:00:00'),
+    startDate: new Date("2025-02-15T10:00:00"),
     duration: 120,
-    location: 'Centre Cívic, Malgrat de Mar',
-    createdAt: new Date('2025-01-20T09:00:00'),
+    location: "Centre Cívic, Malgrat de Mar",
+    createdAt: new Date("2025-01-20T09:00:00"),
   },
   {
     id: 2,
-    title: 'Reunió Mensual de la Comunitat',
-    description: 'Discutirem els avenços del projecte i planificarem les properes accions.',
-    startDate: new Date('2025-02-20T18:30:00'),
+    title: "Reunió Mensual de la Comunitat",
+    description: "Discutirem els avenços del projecte i planificarem les properes accions.",
+    startDate: new Date("2025-02-20T18:30:00"),
     duration: 90,
-    location: 'Sala de Plens, Ajuntament de Malgrat de Mar',
-    createdAt: new Date('2025-01-25T14:00:00'),
+    location: "Sala de Plens, Ajuntament de Malgrat de Mar",
+    createdAt: new Date("2025-01-25T14:00:00"),
   },
 ];
 
@@ -48,7 +48,7 @@ const AgendaPage = () => {
             </CardHeader>
             <CardContent>
               <p className="mb-4">{event.description}</p>
-              <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
+              <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4">
                 <div className="flex items-center">
                   <CalendarIcon className="mr-2 flex-shrink-0" />
                   <span>{formatDate(event.startDate)}</span>
@@ -73,7 +73,7 @@ const AgendaPage = () => {
                   <ExternalLinkIcon className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <span className="text-sm text-muted-foreground">Creat el {formatDate(event.createdAt)}</span>
+              <span className="text-muted-foreground text-sm">Creat el {formatDate(event.createdAt)}</span>
             </CardFooter>
           </Card>
         ))}

@@ -1,4 +1,4 @@
-import UnderConstructionPage from '~/components/under-construction';
+import UnderConstructionPage from "~/components/under-construction";
 
 const AboutPage = () => <UnderConstructionPage title="Qui som?" />;
 
