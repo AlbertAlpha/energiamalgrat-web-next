@@ -13,14 +13,14 @@ export default function HomePage() {
         width={427}
         height={230}
         alt="hero-mobile"
-        className="mx-10 mt-10 lg:hidden"
+        className="mx-auto mt-10 lg:hidden"
       />
       <Image
         src="/assets/landing-page-desktop.svg"
         width={1589}
         height={395}
         alt="hero-desktop"
-        className="mt-auto hidden overflow-auto px-8 lg:order-2 lg:flex lg:size-full"
+        className="mx-auto hidden overflow-auto px-8 lg:order-2 lg:flex lg:size-full"
       />
     </main>
   );

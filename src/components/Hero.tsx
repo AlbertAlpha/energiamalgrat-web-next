@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <div className="relative isolate px-6 pt-6 lg:px-8">
+    <div className="relative isolate px-6 lg:px-8">
       <div className="mx-auto max-w-2xl">
         <div className="text-center">
           <h1 className="text-3xl font-bold sm:text-4xl">Benvinguts a la Comunitat Energètica Malgrat</h1>
