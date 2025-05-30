@@ -6,9 +6,10 @@ import { CalendarIcon, ClockIcon, ExternalLinkIcon, MapPinIcon } from "lucide-re
 import type { WP_REST_API_Category } from "wp-types";
 
 import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import type { WP_REST_API_Activity } from "~/lib/wordpress";
+
+import { ExpandableContent } from "./ExpandableContent";
 
 interface ActivityCardProps {
   activity: WP_REST_API_Activity;
@@ -42,7 +43,7 @@ export const ActivityCard = ({ activity, categories }: ActivityCardProps) => {
             <div className="mb-2 flex items-center">
               <ClockIcon className="mr-2 flex-shrink-0" />
               <span>{format(startDate, "H:mm", { locale: ca })}h</span>
-            </div>{" "}
+            </div>
             <div className="mb-4 flex items-center">
               <MapPinIcon className="mr-2 flex-shrink-0" />
               <div className="flex flex-col">
@@ -60,7 +61,7 @@ export const ActivityCard = ({ activity, categories }: ActivityCardProps) => {
             </div>
           </div>
           <div className="prose prose-sm dark:prose-invert max-w-none text-justify">
-            {parse(activity.content.rendered)}
+            <ExpandableContent>{parse(activity.content.rendered)}</ExpandableContent>
           </div>
         </div>
       </CardContent>
