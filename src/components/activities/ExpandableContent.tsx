@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "~/lib/utils";
@@ -12,16 +12,35 @@ interface ExpandableContentProps {
 
 export const ExpandableContent = ({ children }: ExpandableContentProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+      
+      const resizeObserver = new ResizeObserver((entries) => {
+        const [entry] = entries;
+        if (entry) {
+          setContentHeight(entry.target.scrollHeight);
+        }
+      });
+
+      resizeObserver.observe(contentRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, []);
 
   return (
     <>
-      <div
-        className={cn(
-          "overflow-hidden transition-[height,opacity] duration-300",
-          !isExpanded && "max-h-24 relative"
-        )}
-      >
-        {children}
+      <div className="relative">
+        <div
+          ref={contentRef}
+          className="overflow-hidden transition-all duration-300 ease-in-out"
+          style={{ maxHeight: isExpanded ? `${contentHeight}px` : "6rem" }}
+        >
+          {children}
+        </div>
         {!isExpanded && (
           <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
         )}
