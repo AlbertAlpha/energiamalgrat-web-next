@@ -13,6 +13,21 @@ import type {
   WP_REST_API_User,
 } from "wp-types";
 
+// Custom Activity type for ACF fields
+export type WP_REST_API_Activity = WP_REST_API_Post & {
+  type: "activities";
+  acf: {
+    start_datetime: string;
+    place: string;
+    address: string;
+    geo: {
+      lat: number;
+      lng: number;
+      address: string;
+    };
+  };
+};
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 if (!baseUrl) {
@@ -236,6 +251,27 @@ export async function searchAuthors(query: string): Promise<WP_REST_API_User[]> 
     per_page: 100,
   });
   return wordpressFetch<WP_REST_API_User[]>(url);
+}
+
+export async function getAllActivities(): Promise<WP_REST_API_Activity[]> {
+  const query: ParsedUrlQueryInput = {
+    _embed: true,
+    per_page: 100,
+  };
+
+  const url = getUrl("/wp-json/wp/v2/activity", query);
+  return wordpressFetch<WP_REST_API_Activity[]>(url);
+}
+
+export async function getActivityById(id: number): Promise<WP_REST_API_Activity> {
+  const url = getUrl(`/wp-json/wp/v2/activity/${id}`);
+  return wordpressFetch<WP_REST_API_Activity>(url);
+}
+
+export async function getActivityBySlug(slug: string): Promise<WP_REST_API_Activity | undefined> {
+  const url = getUrl("/wp-json/wp/v2/activity", { slug });
+  const response = await wordpressFetch<WP_REST_API_Activity[]>(url);
+  return response[0];
 }
 
 export { WordPressAPIError };
