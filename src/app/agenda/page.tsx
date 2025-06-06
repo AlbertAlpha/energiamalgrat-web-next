@@ -5,11 +5,16 @@ import { getAllActivities, getAllCategories } from "~/lib/wordpress";
 const AgendaPage = async () => {
   const [activities, categories] = await Promise.all([getAllActivities(), getAllCategories()]);
 
-  const now = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set to start of day
+
   const { upcoming, past } = activities.reduce(
     (acc, activity) => {
       const startDate = new Date(activity.acf.start_datetime);
-      if (startDate >= now) {
+      const activityDate = new Date(startDate);
+      activityDate.setHours(0, 0, 0, 0); // Set to start of day
+
+      if (activityDate >= today) {
         acc.upcoming.push(activity);
       } else {
         acc.past.push(activity);

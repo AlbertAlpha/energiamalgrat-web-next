@@ -13,7 +13,16 @@ interface UpcomingActivitiesSidebarProps {
 
 export const UpcomingActivitiesSidebar = ({ activities }: UpcomingActivitiesSidebarProps) => {
   const upcomingActivities = [...activities]
-    .filter((activity) => new Date(activity.acf.start_datetime) >= new Date())
+    .filter((activity) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const startDate = new Date(activity.acf.start_datetime);
+      const activityDate = new Date(startDate);
+      activityDate.setHours(0, 0, 0, 0);
+
+      return activityDate >= today;
+    })
     .sort((a, b) => new Date(a.acf.start_datetime).getTime() - new Date(b.acf.start_datetime).getTime())
     .slice(0, 5);
 
