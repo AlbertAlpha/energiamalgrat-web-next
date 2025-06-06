@@ -51,7 +51,7 @@ export const ActivityCard = ({ activity, categories }: ActivityCardProps) => {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.acf.geo.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  className="text-primary inline-flex items-center font-medium hover:underline"
                 >
                   {activity.acf.place}
                   <ExternalLinkIcon className="ml-1 h-3 w-3" />
@@ -60,14 +60,14 @@ export const ActivityCard = ({ activity, categories }: ActivityCardProps) => {
               </div>
             </div>
           </div>
-          <div className="prose prose-sm dark:prose-invert max-w-none text-justify">
-            <ExpandableContent>{parse(activity.content.rendered)}</ExpandableContent>
+          <div className="wordpress-content prose prose-sm dark:prose-invert max-w-none text-justify">
+            {activity.content?.rendered && <ExpandableContent>{parse(activity.content.rendered)}</ExpandableContent>}
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
         <span className="text-muted-foreground text-sm">
-          Publicat el {format(new Date(activity.date), "d/MM/yyyy", { locale: ca })}
+          Publicat el {format(new Date(activity.date), "dd/MM/yyyy", { locale: ca })}
         </span>
       </CardFooter>
     </Card>
