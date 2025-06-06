@@ -6,25 +6,15 @@ import { CalendarIcon, ClockIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import type { WP_REST_API_Activity } from "~/lib/wordpress";
+import { getUpcomingAndPastActivities } from "~/lib/wordpress";
 
 interface UpcomingActivitiesSidebarProps {
   activities: WP_REST_API_Activity[];
 }
 
 export const UpcomingActivitiesSidebar = ({ activities }: UpcomingActivitiesSidebarProps) => {
-  const upcomingActivities = [...activities]
-    .filter((activity) => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const startDate = new Date(activity.acf.start_datetime);
-      const activityDate = new Date(startDate);
-      activityDate.setHours(0, 0, 0, 0);
-
-      return activityDate >= today;
-    })
-    .sort((a, b) => new Date(a.acf.start_datetime).getTime() - new Date(b.acf.start_datetime).getTime())
-    .slice(0, 5);
+  const { upcoming } = getUpcomingAndPastActivities(activities);
+  const upcomingActivities = upcoming.slice(0, 5);
 
   return (
     <Card>
@@ -37,7 +27,7 @@ export const UpcomingActivitiesSidebar = ({ activities }: UpcomingActivitiesSide
             <p className="text-muted-foreground mb-4">No hi ha activitats programades actualment.</p>
             <Link
               href="/agenda#activitats-passades"
-              className="text-muted-foreground hover:text-foreground text-sm hover:underline"
+              className="text-muted-foreground hover:text-primary text-sm hover:underline"
             >
               Veure activitats passades →
             </Link>
@@ -47,7 +37,10 @@ export const UpcomingActivitiesSidebar = ({ activities }: UpcomingActivitiesSide
             const startDate = new Date(activity.acf.start_datetime);
             return (
               <div key={activity.id} className="grid gap-1">
-                <Link href={`/agenda#activity-${activity.id}`} className="font-medium hover:underline">
+                <Link
+                  href={`/agenda#activity-${activity.id}`}
+                  className="hover:text-primary font-medium hover:underline"
+                >
                   {parse(activity.title.rendered)}
                 </Link>
                 <div className="text-muted-foreground text-sm">

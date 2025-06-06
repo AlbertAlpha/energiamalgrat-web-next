@@ -1,37 +1,10 @@
 import { ActivityCard } from "~/components/activities/ActivityCard";
 import { Card, CardContent } from "~/components/ui/card";
-import { getAllActivities, getAllCategories } from "~/lib/wordpress";
+import { getAllActivities, getAllCategories, getUpcomingAndPastActivities } from "~/lib/wordpress";
 
 const AgendaPage = async () => {
   const [activities, categories] = await Promise.all([getAllActivities(), getAllCategories()]);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set to start of day
-
-  const { upcoming, past } = activities.reduce(
-    (acc, activity) => {
-      const startDate = new Date(activity.acf.start_datetime);
-      const activityDate = new Date(startDate);
-      activityDate.setHours(0, 0, 0, 0); // Set to start of day
-
-      if (activityDate >= today) {
-        acc.upcoming.push(activity);
-      } else {
-        acc.past.push(activity);
-      }
-      return acc;
-    },
-    { upcoming: [], past: [] } as { upcoming: typeof activities; past: typeof activities },
-  );
-
-  const sortedUpcoming = [...upcoming].sort(
-    (a, b) => new Date(a.acf.start_datetime).getTime() - new Date(b.acf.start_datetime).getTime(),
-  );
-
-  const sortedPast = [...past].sort(
-    (a, b) => new Date(b.acf.start_datetime).getTime() - new Date(a.acf.start_datetime).getTime(),
-  );
-
+  const { upcoming: sortedUpcoming, past: sortedPast } = getUpcomingAndPastActivities(activities);
   const noActivities = activities.length === 0;
 
   return (

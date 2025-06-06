@@ -7,7 +7,7 @@ const Footer = () => {
       <hr className="mb-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
       <div className="text-muted-foreground container mx-auto px-4 text-center text-sm italic">
         {`© ${new Date().getFullYear()} Copyright - `}
-        <Link href="https://www.energiamalgrat.cat" className="hover:underline">
+        <Link href="https://www.energiamalgrat.cat" className="hover:text-primary hover:underline">
           Comunitat Energètica Malgrat
         </Link>
       </div>
@@ -16,7 +16,7 @@ const Footer = () => {
           href="https://www.cdmon.com"
           title="Hosted by cdmon"
           rel="follow"
-          className="ml-3 flex h-full items-center hover:underline"
+          className="hover:text-primary ml-3 flex h-full items-center hover:underline"
           target="_blank"
         >
           Hosted by

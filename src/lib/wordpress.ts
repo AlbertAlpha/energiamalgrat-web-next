@@ -274,4 +274,40 @@ export async function getActivityBySlug(slug: string): Promise<WP_REST_API_Activ
   return response[0];
 }
 
+export function getUpcomingAndPastActivities(activities: WP_REST_API_Activity[]) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set to start of day
+
+  const { upcoming, past } = activities.reduce(
+    (acc, activity) => {
+      const startDate = new Date(activity.acf.start_datetime);
+      const activityDate = new Date(startDate);
+      activityDate.setHours(0, 0, 0, 0); // Set to start of day
+
+      if (activityDate >= today) {
+        acc.upcoming.push(activity);
+      } else {
+        acc.past.push(activity);
+      }
+      return acc;
+    },
+    { upcoming: [], past: [] } as { upcoming: typeof activities; past: typeof activities },
+  );
+
+  // Sort upcoming activities by date (ascending)
+  const sortedUpcoming = [...upcoming].sort(
+    (a, b) => new Date(a.acf.start_datetime).getTime() - new Date(b.acf.start_datetime).getTime(),
+  );
+
+  // Sort past activities by date (descending)
+  const sortedPast = [...past].sort(
+    (a, b) => new Date(b.acf.start_datetime).getTime() - new Date(a.acf.start_datetime).getTime(),
+  );
+
+  return {
+    upcoming: sortedUpcoming,
+    past: sortedPast,
+  };
+}
+
 export { WordPressAPIError };
