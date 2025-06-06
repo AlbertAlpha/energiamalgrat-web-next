@@ -18,19 +18,27 @@ export const UpcomingActivitiesSidebar = ({ activities }: UpcomingActivitiesSide
     .slice(0, 5);
 
   return (
-    <Card className="gap-3">
+    <Card>
       <CardHeader>
         <CardTitle className="text-lg">Properes Activitats</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         {upcomingActivities.length === 0 ? (
-          <p className="text-muted-foreground py-4 text-center">No hi ha activitats programades actualment.</p>
+          <div className="py-4 text-center">
+            <p className="text-muted-foreground mb-4">No hi ha activitats programades actualment.</p>
+            <Link
+              href="/agenda#activitats-passades"
+              className="text-muted-foreground hover:text-foreground text-sm hover:underline"
+            >
+              Veure activitats passades →
+            </Link>
+          </div>
         ) : (
           upcomingActivities.map((activity) => {
             const startDate = new Date(activity.acf.start_datetime);
             return (
               <div key={activity.id} className="grid gap-1">
-                <Link href={`/agenda#activity-${activity.id}`} className="text-primary font-medium hover:underline">
+                <Link href={`/agenda#activity-${activity.id}`} className="font-medium hover:underline">
                   {parse(activity.title.rendered)}
                 </Link>
                 <div className="text-muted-foreground text-sm">
