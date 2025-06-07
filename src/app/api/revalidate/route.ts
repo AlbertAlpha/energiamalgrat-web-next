@@ -16,19 +16,13 @@ export async function POST(request: NextRequest) {
 
     if (secret !== process.env.WORDPRESS_WEBHOOK_SECRET) {
       console.error("Invalid webhook secret");
-      return NextResponse.json(
-        { message: "Invalid webhook secret" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Invalid webhook secret" }, { status: 401 });
     }
 
     const { contentType, contentId } = requestBody;
 
     if (!contentType) {
-      return NextResponse.json(
-        { message: "Missing content type" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Missing content type" }, { status: 400 });
     }
 
     try {
@@ -37,9 +31,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         revalidated: true,
-        message: `Revalidated entire site due to ${contentType} update${
-          contentId ? ` (ID: ${contentId})` : ""
-        }`,
+        message: `Revalidated entire site due to ${contentType} update${contentId ? ` (ID: ${contentId})` : ""}`,
         timestamp: new Date().toISOString(),
       });
     } catch (error) {
@@ -51,7 +43,7 @@ export async function POST(request: NextRequest) {
           error: (error as Error).message,
           timestamp: new Date().toISOString(),
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (error) {
@@ -62,7 +54,7 @@ export async function POST(request: NextRequest) {
         error: (error as Error).message,
         timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

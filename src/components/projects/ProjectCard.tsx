@@ -6,15 +6,14 @@ import { ExternalLinkIcon, MapPinIcon } from "lucide-react";
 import { Card, CardContent } from "~/components/ui/card";
 import type { WP_REST_API_Project } from "~/lib/wordpress";
 
-interface ProjectCardProps {
+type ProjectCardProps = {
   project: WP_REST_API_Project;
-}
+  featuredMedia: { source_url: string; alt_text: string } | null;
+};
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
-  const featuredMedia = project._embedded?.["wp:featuredmedia"]?.[0];
-
+export const ProjectCard = ({ project, featuredMedia }: ProjectCardProps) => {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden p-0">
       {featuredMedia && (
         <div className="relative h-64 w-full">
           <Image
@@ -27,7 +26,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           />
         </div>
       )}
-      <CardContent className="mt-6">
+      <CardContent className="px-6 pt-2 pb-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <h2 className="mb-4 text-2xl font-bold">{parse(project.title.rendered)}</h2>

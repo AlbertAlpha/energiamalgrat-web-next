@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
 
-import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 
 interface ExpandableContentProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export const ExpandableContent = ({ children }: ExpandableContentProps) => {
   useEffect(() => {
     if (contentRef.current) {
       setContentHeight(contentRef.current.scrollHeight);
-      
+
       const resizeObserver = new ResizeObserver((entries) => {
         const [entry] = entries;
         if (entry) {
@@ -42,21 +42,15 @@ export const ExpandableContent = ({ children }: ExpandableContentProps) => {
           {children}
         </div>
         {!isExpanded && (
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
+          <div className="from-background absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t to-transparent" />
         )}
       </div>
       <div className="flex justify-end">
-        <Button
-          variant="link"
-          size="sm"
-          className="mt-2 p-0"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
+        <Button variant="link" size="sm" className="mt-2 p-0" onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? "Veure menys" : "Veure més"}
-          <ChevronDownIcon
-            className={cn("ml-1 h-4 w-4 transition-transform", isExpanded && "rotate-180")}
-          />
+          <ChevronDownIcon className={cn("ml-1 h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
         </Button>
       </div>
     </>
   );
+};
