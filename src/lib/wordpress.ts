@@ -28,6 +28,19 @@ export type WP_REST_API_Activity = WP_REST_API_Post & {
   };
 };
 
+// Custom Project Energy type for ACF fields
+export type WP_REST_API_Project = WP_REST_API_Post & {
+  type: "project-energy";
+  acf: {
+    order: number;
+    geo: {
+      lat: number;
+      lng: number;
+      address: string;
+    };
+  };
+};
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 if (!baseUrl) {
@@ -308,6 +321,28 @@ export function getUpcomingAndPastActivities(activities: WP_REST_API_Activity[])
     upcoming: sortedUpcoming,
     past: sortedPast,
   };
+}
+
+export async function getAllProjects(): Promise<WP_REST_API_Project[]> {
+  const query: ParsedUrlQueryInput = {
+    _embed: true,
+    per_page: 100,
+  };
+
+  const url = getUrl("/wp-json/wp/v2/project-energy", query);
+  const projects = await wordpressFetch<WP_REST_API_Project[]>(url);
+  return [...projects].sort((a, b) => a.acf.order - b.acf.order);
+}
+
+export async function getProjectById(id: number): Promise<WP_REST_API_Project> {
+  const url = getUrl(`/wp-json/wp/v2/project-energy/${id}`);
+  return wordpressFetch<WP_REST_API_Project>(url);
+}
+
+export async function getProjectBySlug(slug: string): Promise<WP_REST_API_Project | undefined> {
+  const url = getUrl("/wp-json/wp/v2/project-energy", { slug });
+  const response = await wordpressFetch<WP_REST_API_Project[]>(url);
+  return response[0];
 }
 
 export { WordPressAPIError };
