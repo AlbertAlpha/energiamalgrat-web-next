@@ -7,14 +7,12 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  {
-    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
-  },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"), // extra project specific configurations
   {
     plugins: {
       "simple-import-sort": simpleImportSort,
     },
+    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
     rules: {
       "no-unused-vars": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
