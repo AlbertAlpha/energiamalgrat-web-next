@@ -13,16 +13,10 @@
 # testing
 /coverage
 
-# database
-/prisma/db.sqlite
-/prisma/db.sqlite-journal
-db.sqlite
-
 # next.js
 /.next/
 /out/
 /certificates
-next-env.d.ts
 
 # production
 /build
@@ -47,6 +41,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+next-env.d.ts
 
 # idea files
 .idea

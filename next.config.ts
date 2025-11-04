@@ -1,11 +1,6 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-import "./src/env.js";
+import type { NextConfig } from "next";
 
-/** @type {import("next").NextConfig} */
-const config = {
+const nextConfig: NextConfig = {
   typedRoutes: true,
   images: {
     remotePatterns: [
@@ -28,4 +23,4 @@ const config = {
   },
 };
 
-export default config;
+export default nextConfig;

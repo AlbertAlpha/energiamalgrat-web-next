@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
   );
 
   return (
-    <main className="container mx-auto max-w-5xl flex-grow px-4 py-8">
+    <main className="container mx-auto max-w-5xl grow px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold">Els nostres projectes</h1>
       <div className="space-y-6">
         {projectsWithMedia.map(({ project, featuredMedia }) => (
