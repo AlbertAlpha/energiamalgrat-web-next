@@ -42,13 +42,23 @@ export const ExpandableContent = ({ children }: ExpandableContentProps) => {
           {children}
         </div>
         {!isExpanded && (
-          <div className="from-background absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
         )}
       </div>
       <div className="flex justify-end">
-        <Button variant="link" size="sm" className="mt-2 p-0" onClick={() => setIsExpanded(!isExpanded)}>
+        <Button
+          variant="link"
+          size="sm"
+          className="mt-2 p-0"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
           {isExpanded ? "Veure menys" : "Veure més"}
-          <ChevronDownIcon className={cn("ml-1 h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
+          <ChevronDownIcon
+            className={cn(
+              "ml-1 h-4 w-4 transition-transform",
+              isExpanded && "rotate-180",
+            )}
+          />
         </Button>
       </div>
     </>

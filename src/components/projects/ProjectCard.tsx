@@ -29,7 +29,9 @@ export const ProjectCard = ({ project, featuredMedia }: ProjectCardProps) => {
       <CardContent className="px-6 pt-2 pb-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <h2 className="mb-4 text-2xl font-bold">{parse(project.title.rendered)}</h2>
+            <h2 className="mb-4 font-bold text-2xl">
+              {parse(project.title.rendered)}
+            </h2>
             {project.acf.geo && (
               <div className="mb-4 flex items-center">
                 <MapPinIcon className="mr-2 flex-shrink-0" />
@@ -38,12 +40,14 @@ export const ProjectCard = ({ project, featuredMedia }: ProjectCardProps) => {
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(project.acf.geo.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary inline-flex items-center font-medium hover:underline"
+                    className="inline-flex items-center font-medium text-primary hover:underline"
                   >
                     Veure al mapa
                     <ExternalLinkIcon className="ml-1 h-3 w-3" />
                   </Link>
-                  <span className="text-muted-foreground text-sm">{project.acf.geo.address}</span>
+                  <span className="text-muted-foreground text-sm">
+                    {project.acf.geo.address}
+                  </span>
                 </div>
               </div>
             )}

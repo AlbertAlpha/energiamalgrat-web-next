@@ -11,7 +11,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/"
-          className={`hover:text-primary transition-colors ${pathname === "/" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
+          className={`transition-colors hover:text-primary ${pathname === "/" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
         >
           Inici
         </Link>
@@ -19,7 +19,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/projects"
-          className={`hover:text-primary transition-colors ${pathname === "/projects" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
+          className={`transition-colors hover:text-primary ${pathname === "/projects" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
         >
           Projectes
         </Link>
@@ -27,7 +27,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/agenda"
-          className={`hover:text-primary transition-colors ${pathname === "/agenda" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
+          className={`transition-colors hover:text-primary ${pathname === "/agenda" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
         >
           Agenda
         </Link>
@@ -35,7 +35,7 @@ export const NavigationItems = () => {
       <li>
         <Link
           href="/contact"
-          className={`hover:text-primary transition-colors ${pathname === "/contact" ? "border-primary text-primary border-b-2 font-semibold" : ""}`}
+          className={`transition-colors hover:text-primary ${pathname === "/contact" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
         >
           Contacte
         </Link>

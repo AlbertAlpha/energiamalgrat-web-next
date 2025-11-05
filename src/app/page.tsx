@@ -9,7 +9,7 @@ export default async function HomePage() {
   const activities = await getAllActivities();
 
   return (
-    <main className="relative container mx-auto flex-grow px-4 pt-8 pb-2">
+    <main className="container relative mx-auto flex-grow px-4 pt-8 pb-2">
       <div className="relative z-10 lg:flex lg:gap-8">
         <div className="lg:flex-1">
           <Hero />

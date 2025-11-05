@@ -23,11 +23,22 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable} antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${geist.variable} antialiased`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-screen flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Header />
           {children}
           <Footer />

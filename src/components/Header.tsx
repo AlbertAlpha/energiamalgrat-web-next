@@ -9,9 +9,21 @@ const Header = () => {
   return (
     <header className="border-b">
       <div className="flex items-center justify-between px-4 py-4">
-        <Link href="/" title="Comunitat Energètica Malgrat" className="flex items-center">
-          <Image src="/icon.svg" width={512} height={512} alt="logo" className="h-8 w-auto" />
-          <span className="ml-2 hidden text-lg font-bold sm:inline">Comunitat Energètica Malgrat</span>
+        <Link
+          href="/"
+          title="Comunitat Energètica Malgrat"
+          className="flex items-center"
+        >
+          <Image
+            src="/icon.svg"
+            width={512}
+            height={512}
+            alt="logo"
+            className="h-8 w-auto"
+          />
+          <span className="ml-2 hidden font-bold text-lg sm:inline">
+            Comunitat Energètica Malgrat
+          </span>
         </Link>
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
