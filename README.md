@@ -15,6 +15,7 @@ This project uses the following technologies, please refer to the respective doc
 - [Tailwind CSS](https://tailwindcss.com) - style framework
 - [Shadcn](https://ui.shadcn.com/) - UI component library
 - [Lucide](https://lucide.dev/icons/) - icon library
+- [BetterAuth](https://www.better-auth.com/docs) - Authentication and access control
 
 ## Conventional Commit Messages
 
@@ -27,11 +28,11 @@ type(scope?): subject  #scope is optional; multiple scopes are supported (curren
 - build
 - **chore** / ex: `chore: run tests on travis ci`
 - ci
-- docs
-- **feat** / ex: `feat(blog): add comment section`
-- **fix** / ex: `fix(server): send cors headers`
+- docs / ex: `docs: update README`
+- **feat** / ex: `feat: add comment section`
+- **fix** / ex: `fix: send cors headers`
 - perf
 - refactor
 - revert
-- style
-- test
+- style / ex: style: updated button color
+- test / ex: test: added new functional test
