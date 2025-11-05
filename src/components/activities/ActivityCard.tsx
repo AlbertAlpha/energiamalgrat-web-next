@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { format } from "date-fns";
 import { ca } from "date-fns/locale";
 import parse from "html-react-parser";
@@ -8,6 +7,7 @@ import {
   ExternalLinkIcon,
   MapPinIcon,
 } from "lucide-react";
+import Link from "next/link";
 import type { WP_REST_API_Category } from "wp-types";
 
 import { Badge } from "~/components/ui/badge";
@@ -50,17 +50,17 @@ export const ActivityCard = ({ activity, categories }: ActivityCardProps) => {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <div className="mb-2 flex items-center">
-              <CalendarIcon className="mr-2 flex-shrink-0" />
+              <CalendarIcon className="mr-2 shrink-0" />
               <span>
                 {format(startDate, "EEEE, d MMMM yyyy", { locale: ca })}
               </span>
             </div>
             <div className="mb-2 flex items-center">
-              <ClockIcon className="mr-2 flex-shrink-0" />
+              <ClockIcon className="mr-2 shrink-0" />
               <span>{format(startDate, "H:mm", { locale: ca })}h</span>
             </div>
             <div className="mb-4 flex items-center">
-              <MapPinIcon className="mr-2 flex-shrink-0" />
+              <MapPinIcon className="mr-2 shrink-0" />
               <div className="flex flex-col">
                 <Link
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.acf.geo.address)}`}

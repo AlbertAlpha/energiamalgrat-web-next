@@ -6,7 +6,7 @@ type UnderConstructionPageProps = {
 };
 
 const UnderConstructionPage = ({ title }: UnderConstructionPageProps) => (
-  <main className="container mx-auto flex-grow px-4 py-8">
+  <main className="container mx-auto grow px-4 py-8">
     <div className="mx-auto max-w-2xl">
       <div className="flex flex-col items-center justify-center text-center">
         <h1 className="font-bold text-3xl sm:text-4xl">{title}</h1>
