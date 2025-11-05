@@ -12,6 +12,7 @@ import type {
   WP_REST_API_Tag,
   WP_REST_API_User,
 } from "wp-types";
+import { env } from "~/env";
 
 // Custom Activity type for ACF fields
 export type WP_REST_API_Activity = WP_REST_API_Post & {
@@ -41,7 +42,7 @@ export type WP_REST_API_Project = WP_REST_API_Post & {
   };
 };
 
-const baseUrl = process.env.WORDPRESS_URL;
+const baseUrl = env.WORDPRESS_URL;
 
 if (!baseUrl) {
   throw new Error("WORDPRESS_URL environment variable is not defined");
@@ -73,7 +74,11 @@ async function wordpressFetch<T>(url: string): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new WordPressAPIError(`WordPress API request failed: ${response.statusText}`, response.status, url);
+    throw new WordPressAPIError(
+      `WordPress API request failed: ${response.statusText}`,
+      response.status,
+      url,
+    );
   }
 
   return response.json();
@@ -112,7 +117,9 @@ export async function getPostById(id: number): Promise<WP_REST_API_Post> {
   return wordpressFetch<WP_REST_API_Post>(url);
 }
 
-export async function getPostBySlug(slug: string): Promise<WP_REST_API_Post | undefined> {
+export async function getPostBySlug(
+  slug: string,
+): Promise<WP_REST_API_Post | undefined> {
   const url = getUrl("/wp-json/wp/v2/posts", { slug });
   const response = await wordpressFetch<WP_REST_API_Post[]>(url);
   return response[0];
@@ -123,28 +130,38 @@ export async function getAllCategories(): Promise<WP_REST_API_Category[]> {
   return wordpressFetch<WP_REST_API_Category[]>(url);
 }
 
-export async function getCategoryById(id: number): Promise<WP_REST_API_Category> {
+export async function getCategoryById(
+  id: number,
+): Promise<WP_REST_API_Category> {
   const url = getUrl(`/wp-json/wp/v2/categories/${id}`);
   return wordpressFetch<WP_REST_API_Category>(url);
 }
 
-export async function getCategoryBySlug(slug: string): Promise<WP_REST_API_Category | undefined> {
+export async function getCategoryBySlug(
+  slug: string,
+): Promise<WP_REST_API_Category | undefined> {
   const url = getUrl("/wp-json/wp/v2/categories", { slug });
   const response = await wordpressFetch<WP_REST_API_Category[]>(url);
   return response[0];
 }
 
-export async function getPostsByCategory(categoryId: number): Promise<WP_REST_API_Post[]> {
+export async function getPostsByCategory(
+  categoryId: number,
+): Promise<WP_REST_API_Post[]> {
   const url = getUrl("/wp-json/wp/v2/posts", { categories: categoryId });
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getPostsByTag(tagId: number): Promise<WP_REST_API_Post[]> {
+export async function getPostsByTag(
+  tagId: number,
+): Promise<WP_REST_API_Post[]> {
   const url = getUrl("/wp-json/wp/v2/posts", { tags: tagId });
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getTagsByPost(postId: number): Promise<WP_REST_API_Tag[]> {
+export async function getTagsByPost(
+  postId: number,
+): Promise<WP_REST_API_Tag[]> {
   const url = getUrl("/wp-json/wp/v2/tags", { post: postId });
   return wordpressFetch<WP_REST_API_Tag[]>(url);
 }
@@ -159,7 +176,9 @@ export async function getTagById(id: number): Promise<WP_REST_API_Tag> {
   return wordpressFetch<WP_REST_API_Tag>(url);
 }
 
-export async function getTagBySlug(slug: string): Promise<WP_REST_API_Tag | undefined> {
+export async function getTagBySlug(
+  slug: string,
+): Promise<WP_REST_API_Tag | undefined> {
   const url = getUrl("/wp-json/wp/v2/tags", { slug });
   const response = await wordpressFetch<WP_REST_API_Tag[]>(url);
   return response[0];
@@ -175,7 +194,9 @@ export async function getPageById(id: number): Promise<WP_REST_API_Page> {
   return wordpressFetch<WP_REST_API_Page>(url);
 }
 
-export async function getPageBySlug(slug: string): Promise<WP_REST_API_Page | undefined> {
+export async function getPageBySlug(
+  slug: string,
+): Promise<WP_REST_API_Page | undefined> {
   const url = getUrl("/wp-json/wp/v2/pages", { slug });
   const response = await wordpressFetch<WP_REST_API_Page[]>(url);
   return response[0];
@@ -191,18 +212,24 @@ export async function getAuthorById(id: number): Promise<WP_REST_API_User> {
   return wordpressFetch<WP_REST_API_User>(url);
 }
 
-export async function getAuthorBySlug(slug: string): Promise<WP_REST_API_User | undefined> {
+export async function getAuthorBySlug(
+  slug: string,
+): Promise<WP_REST_API_User | undefined> {
   const url = getUrl("/wp-json/wp/v2/users", { slug });
   const response = await wordpressFetch<WP_REST_API_User[]>(url);
   return response[0];
 }
 
-export async function getPostsByAuthor(authorId: number): Promise<WP_REST_API_Post[]> {
+export async function getPostsByAuthor(
+  authorId: number,
+): Promise<WP_REST_API_Post[]> {
   const url = getUrl("/wp-json/wp/v2/posts", { author: authorId });
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getPostsByAuthorSlug(authorSlug: string): Promise<WP_REST_API_Post[]> {
+export async function getPostsByAuthorSlug(
+  authorSlug: string,
+): Promise<WP_REST_API_Post[]> {
   const author = await getAuthorBySlug(authorSlug);
   if (!author) {
     throw new WordPressAPIError(
@@ -215,7 +242,9 @@ export async function getPostsByAuthorSlug(authorSlug: string): Promise<WP_REST_
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getPostsByCategorySlug(categorySlug: string): Promise<WP_REST_API_Post[]> {
+export async function getPostsByCategorySlug(
+  categorySlug: string,
+): Promise<WP_REST_API_Post[]> {
   const category = await getCategoryBySlug(categorySlug);
   if (!category) {
     throw new WordPressAPIError(
@@ -228,21 +257,31 @@ export async function getPostsByCategorySlug(categorySlug: string): Promise<WP_R
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getPostsByTagSlug(tagSlug: string): Promise<WP_REST_API_Post[]> {
+export async function getPostsByTagSlug(
+  tagSlug: string,
+): Promise<WP_REST_API_Post[]> {
   const tag = await getTagBySlug(tagSlug);
   if (!tag) {
-    throw new WordPressAPIError(`Tag with slug "${tagSlug}" not found`, 404, `/wp-json/wp/v2/tags?slug=${tagSlug}`);
+    throw new WordPressAPIError(
+      `Tag with slug "${tagSlug}" not found`,
+      404,
+      `/wp-json/wp/v2/tags?slug=${tagSlug}`,
+    );
   }
   const url = getUrl("/wp-json/wp/v2/posts", { tags: tag.id });
   return wordpressFetch<WP_REST_API_Post[]>(url);
 }
 
-export async function getFeaturedMediaById(id: number): Promise<WP_REST_API_Attachment> {
+export async function getFeaturedMediaById(
+  id: number,
+): Promise<WP_REST_API_Attachment> {
   const url = getUrl(`/wp-json/wp/v2/media/${id}`);
   return wordpressFetch<WP_REST_API_Attachment>(url);
 }
 
-export async function searchCategories(query: string): Promise<WP_REST_API_Category[]> {
+export async function searchCategories(
+  query: string,
+): Promise<WP_REST_API_Category[]> {
   const url = getUrl("/wp-json/wp/v2/categories", {
     search: query,
     per_page: 100,
@@ -258,7 +297,9 @@ export async function searchTags(query: string): Promise<WP_REST_API_Tag[]> {
   return wordpressFetch<WP_REST_API_Tag[]>(url);
 }
 
-export async function searchAuthors(query: string): Promise<WP_REST_API_User[]> {
+export async function searchAuthors(
+  query: string,
+): Promise<WP_REST_API_User[]> {
   const url = getUrl("/wp-json/wp/v2/users", {
     search: query,
     per_page: 100,
@@ -276,18 +317,24 @@ export async function getAllActivities(): Promise<WP_REST_API_Activity[]> {
   return wordpressFetch<WP_REST_API_Activity[]>(url);
 }
 
-export async function getActivityById(id: number): Promise<WP_REST_API_Activity> {
+export async function getActivityById(
+  id: number,
+): Promise<WP_REST_API_Activity> {
   const url = getUrl(`/wp-json/wp/v2/activity/${id}`);
   return wordpressFetch<WP_REST_API_Activity>(url);
 }
 
-export async function getActivityBySlug(slug: string): Promise<WP_REST_API_Activity | undefined> {
+export async function getActivityBySlug(
+  slug: string,
+): Promise<WP_REST_API_Activity | undefined> {
   const url = getUrl("/wp-json/wp/v2/activity", { slug });
   const response = await wordpressFetch<WP_REST_API_Activity[]>(url);
   return response[0];
 }
 
-export function getUpcomingAndPastActivities(activities: WP_REST_API_Activity[]) {
+export function getUpcomingAndPastActivities(
+  activities: WP_REST_API_Activity[],
+) {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set to start of day
 
@@ -304,17 +351,24 @@ export function getUpcomingAndPastActivities(activities: WP_REST_API_Activity[])
       }
       return acc;
     },
-    { upcoming: [], past: [] } as { upcoming: typeof activities; past: typeof activities },
+    { upcoming: [], past: [] } as {
+      upcoming: typeof activities;
+      past: typeof activities;
+    },
   );
 
   // Sort upcoming activities by date (ascending)
   const sortedUpcoming = [...upcoming].sort(
-    (a, b) => new Date(a.acf.start_datetime).getTime() - new Date(b.acf.start_datetime).getTime(),
+    (a, b) =>
+      new Date(a.acf.start_datetime).getTime() -
+      new Date(b.acf.start_datetime).getTime(),
   );
 
   // Sort past activities by date (descending)
   const sortedPast = [...past].sort(
-    (a, b) => new Date(b.acf.start_datetime).getTime() - new Date(a.acf.start_datetime).getTime(),
+    (a, b) =>
+      new Date(b.acf.start_datetime).getTime() -
+      new Date(a.acf.start_datetime).getTime(),
   );
 
   return {
@@ -339,7 +393,9 @@ export async function getProjectById(id: number): Promise<WP_REST_API_Project> {
   return wordpressFetch<WP_REST_API_Project>(url);
 }
 
-export async function getProjectBySlug(slug: string): Promise<WP_REST_API_Project | undefined> {
+export async function getProjectBySlug(
+  slug: string,
+): Promise<WP_REST_API_Project | undefined> {
   const url = getUrl("/wp-json/wp/v2/project-energy", { slug });
   const response = await wordpressFetch<WP_REST_API_Project[]>(url);
   return response[0];

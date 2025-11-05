@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { env } from "~/env";
 
 import { getAllPosts } from "~/lib/wordpress";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = env.NEXT_PUBLIC_SITE_URL;
   const staticUrls: MetadataRoute.Sitemap = [
     {
       url: `${siteUrl}`,
