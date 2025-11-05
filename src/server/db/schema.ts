@@ -1,5 +1,13 @@
-import { sql } from "drizzle-orm";
-import { index, int, mysqlTableCreator, primaryKey, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
+import {
+  boolean,
+  index,
+  mysqlTable,
+  mysqlTableCreator,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/mysql-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -12,100 +20,103 @@ const createTable = mysqlTableCreator((name) => `emalgrat-web_${name}`);
 const timestampsColumns = {
   createdBy: int()
     .notNull()
-    .references(() => users.userId),
+    .references(() => user.userId),
   createdAt: timestamp()
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   updatedAt: timestamp().$onUpdate(() => new Date()),
 };
 
-export const users = createTable("user", {
-  id: varchar("id", { length: 255 })
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: int().notNull().autoincrement().unique(),
-  name: varchar({ length: 255 }),
-  email: varchar({ length: 255 }).unique(),
-  emailVerified: timestamp({
-    mode: "date",
-    fsp: 3,
-  }),
-  image: varchar({ length: 255 }),
-  createdAt: timestamp()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: timestamp().$onUpdate(() => new Date()),
-});
-
-export const accounts = createTable(
-  "account",
-  {
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: varchar("type", { length: 255 }).notNull(),
-    provider: varchar("provider", { length: 255 }).notNull(),
-    providerAccountId: varchar("providerAccountId", {
-      length: 255,
-    }).notNull(),
-    refresh_token: varchar("refresh_token", { length: 255 }),
-    access_token: varchar("access_token", { length: 255 }),
-    expires_at: int("expires_at"),
-    token_type: varchar("token_type", { length: 255 }),
-    scope: varchar("scope", { length: 255 }),
-    id_token: varchar("id_token", { length: 2048 }),
-    session_state: varchar("session_state", { length: 255 }),
-  },
-  (account) => [
-    primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-    index("account_user_idx").on(account.userId),
-  ],
-);
-
-export const sessions = createTable(
-  "session",
-  {
-    sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (session) => [index("session_user_idx").on(session.userId)],
-);
-
-export const verificationTokens = createTable(
-  "verification_token",
-  {
-    identifier: varchar("identifier", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })],
-);
-
 export const posts = createTable(
   "post",
-  {
-    id: int().primaryKey().autoincrement(),
-    name: varchar("name", { length: 255 }),
-    ...timestampsColumns,
-  },
-  (post) => [index("post_created_by_idx").on(post.createdBy)],
+  (d) => ({
+    id: d.bigint({ mode: "number" }).primaryKey().autoincrement(),
+    name: d.varchar({ length: 256 }),
+    createdById: d
+      .varchar({ length: 255 })
+      .notNull()
+      .references(() => user.id),
+    createdAt: d
+      .timestamp()
+      .$defaultFn(() => /* @__PURE__ */ new Date())
+      .notNull(),
+    updatedAt: d.timestamp().onUpdateNow(),
+  }),
+  (t) => [
+    index("created_by_idx").on(t.createdById),
+    index("name_idx").on(t.name),
+  ]
 );
 
-export const events = createTable(
-  "event",
-  {
-    id: int().primaryKey().autoincrement(),
-    name: varchar({ length: 255 }),
-    description: text(),
-    location: varchar({ length: 255 }),
-    startDate: timestamp().notNull(),
-    endDate: timestamp().notNull(),
-    ...timestampsColumns,
-  },
-  (event) => [index("event_start_idx").on(event.startDate)],
-);
+export const user = createTable("user", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  name: text("name").notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  emailVerified: boolean("email_verified")
+    .$defaultFn(() => false)
+    .notNull(),
+  image: text("image"),
+  createdAt: timestamp("created_at")
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  updatedAt: timestamp("updated_at")
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const session = createTable("session", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  expiresAt: timestamp("expires_at").notNull(),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  userId: varchar("user_id", { length: 36 })
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+});
+
+export const account = createTable("account", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  accountId: text("account_id").notNull(),
+  providerId: text("provider_id").notNull(),
+  userId: varchar("user_id", { length: 36 })
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  idToken: text("id_token"),
+  accessTokenExpiresAt: timestamp("access_token_expires_at"),
+  refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const verification = createTable("verification", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+  updatedAt: timestamp("updated_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+});
+
+export const usersRelations = relations(user, ({ many }) => ({
+  accounts: many(account),
+  sessions: many(session),
+}));
+
+export const accountsRelations = relations(account, ({ one }) => ({
+  user: one(user, { fields: [account.userId], references: [user.id] }),
+}));
+
+export const sessionsRelations = relations(session, ({ one }) => ({
+  user: one(user, { fields: [session.userId], references: [user.id] }),
+}));
