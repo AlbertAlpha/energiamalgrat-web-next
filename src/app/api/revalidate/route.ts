@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import { revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "~/env";
@@ -5,48 +6,78 @@ import { env } from "~/env";
 export const maxDuration = 30;
 
 /**
- * WordPress webhook handler for content revalidation
+ * WordPress Content Revalidation Tracker webhook handler
  * Receives notifications from WordPress when content changes
- * and revalidates the entire site
+ * and revalidates the corresponding Next.js routes
+ * Returns the Next.js route path or null if no mapping exists
  */
+function mapWordPressPathToNextRoute(wordPressPath: string): Route | null {
+  if (wordPressPath.startsWith("/activity/")) {
+    return "/agenda";
+  } else if (wordPressPath.startsWith("/project-energy/")) {
+    return "/projects";
+  } else {
+    return null;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const requestBody = await request.json();
-    const secret = request.headers.get("x-webhook-secret");
 
-    if (secret !== env.WORDPRESS_WEBHOOK_SECRET) {
+    // Content Revalidation Tracker plugin sends secret and path in the body
+    const { secret, path } = requestBody;
+
+    // Validate secret
+    if (!secret || secret !== env.WORDPRESS_SECRET) {
       console.error("Invalid webhook secret");
-      return NextResponse.json(
-        { message: "Invalid webhook secret" },
-        { status: 401 },
-      );
+      return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
     }
 
-    const { contentType, contentId } = requestBody;
-
-    if (!contentType) {
+    // Validate path
+    if (!path || typeof path !== "string") {
       return NextResponse.json(
-        { message: "Missing content type" },
+        { message: "Missing or invalid path" },
         { status: 400 },
       );
     }
 
     try {
-      console.log("Revalidating entire site");
-      revalidatePath("/", "layout");
+      // Map WordPress path to Next.js routes
+      const routePath = mapWordPressPathToNextRoute(path);
+
+      // If no mapping exists, return an error
+      if (!routePath) {
+        return NextResponse.json(
+          {
+            revalidated: false,
+            message: `No mapping found for WordPress path: ${path}`,
+            wordPressPath: path,
+            timestamp: new Date().toISOString(),
+          },
+          { status: 400 },
+        );
+      }
+
+      console.log(`Revalidating route for WordPress path: ${path}`);
+      console.log(`Mapped to Next.js route: ${routePath}`);
+
+      // Revalidate the specific route
+      revalidatePath(routePath);
 
       return NextResponse.json({
         revalidated: true,
-        message: `Revalidated entire site due to ${contentType} update${contentId ? ` (ID: ${contentId})` : ""}`,
+        message: `Revalidated route for WordPress path: ${path}`,
+        wordPressPath: path,
+        nextRoutePath: routePath,
         timestamp: new Date().toISOString(),
       });
     } catch (error) {
-      console.error("Error revalidating path:", error);
+      console.error("Error revalidating route:", error);
       return NextResponse.json(
         {
           revalidated: false,
-          message: "Failed to revalidate site",
+          message: "Failed to revalidate route",
           error: (error as Error).message,
           timestamp: new Date().toISOString(),
         },
