@@ -49,8 +49,8 @@ export const env = createEnv({
     WORDPRESS_URL: process.env.WORDPRESS_URL,
     WORDPRESS_HOSTNAME: process.env.WORDPRESS_HOSTNAME,
     WORDPRESS_SECRET: process.env.WORDPRESS_SECRET,
-    WORDPRESS_USER: process.env.WP_USER,
-    WORDPRESS_APP_PASS: process.env.WP_APP_PASS,
+    WORDPRESS_USER: process.env.WORDPRESS_USER,
+    WORDPRESS_APP_PASS: process.env.WORDPRESS_APP_PASS,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   /**
