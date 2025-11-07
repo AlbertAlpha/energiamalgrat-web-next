@@ -12,7 +12,7 @@ export type WP_ProjectEnergy =
 
 const client = new GraphQLClient(`${env.WORDPRESS_URL}/graphql`, {
   headers: {
-    Authorization: `Basic ${Buffer.from(`${env.WP_USER}:${env.WP_APP_PASS}`).toString("base64")}`,
+    Authorization: `Basic ${Buffer.from(`${env.WORDPRESS_USER}:${env.WORDPRESS_APP_PASS}`).toString("base64")}`,
   },
 });
 const wpGraphQLClient = getSdk(client);
