@@ -1,15 +1,15 @@
-import Link from "next/link";
 import { format } from "date-fns";
 import { ca } from "date-fns/locale";
 import parse from "html-react-parser";
 import { CalendarIcon, ClockIcon } from "lucide-react";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import type { WP_REST_API_Activity } from "~/lib/wordpress";
+import type { WP_Activity } from "~/lib/wordpress";
 import { getUpcomingAndPastActivities } from "~/lib/wordpress";
 
 interface UpcomingActivitiesSidebarProps {
-  activities: WP_REST_API_Activity[];
+  activities: WP_Activity[];
 }
 
 export const UpcomingActivitiesSidebar = ({
@@ -38,14 +38,14 @@ export const UpcomingActivitiesSidebar = ({
           </div>
         ) : (
           upcomingActivities.map((activity) => {
-            const startDate = new Date(activity.acf.start_datetime);
+            const startDate = new Date(activity.activityDetails.startDatetime);
             return (
               <div key={activity.id} className="grid gap-1">
                 <Link
                   href={`/agenda#activity-${activity.id}`}
                   className="font-medium hover:text-primary hover:underline"
                 >
-                  {parse(activity.title.rendered)}
+                  {parse(activity.title)}
                 </Link>
                 <div className="text-muted-foreground text-sm">
                   <div className="flex items-center gap-1">

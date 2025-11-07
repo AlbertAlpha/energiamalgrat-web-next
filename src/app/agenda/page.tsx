@@ -1,22 +1,15 @@
 import { ActivityCard } from "~/components/activities/ActivityCard";
 import { Card, CardContent } from "~/components/ui/card";
-import {
-  getAllActivities,
-  getAllCategories,
-  getUpcomingAndPastActivities,
-} from "~/lib/wordpress";
+import { getUpcomingAndPastActivities, wpGraphQL } from "~/lib/wordpress";
 
 const AgendaPage = async () => {
-  const [activities, categories] = await Promise.all([
-    getAllActivities(),
-    getAllCategories(),
-  ]);
+  const activities = await wpGraphQL.getActivities();
   const { upcoming: sortedUpcoming, past: sortedPast } =
     getUpcomingAndPastActivities(activities);
   const noActivities = activities.length === 0;
 
   return (
-    <main className="container mx-auto max-w-5xl flex-grow px-4 py-8">
+    <main className="container mx-auto max-w-5xl grow px-4 py-8">
       <h1 className="mb-6 font-bold text-3xl">Agenda d&apos;Activitats</h1>
 
       {noActivities ? (
@@ -38,8 +31,8 @@ const AgendaPage = async () => {
                 </Card>
               ) : (
                 sortedUpcoming.map((activity) => (
-                  <div key={activity.id} id={`activity-${activity.id}`}>
-                    <ActivityCard activity={activity} categories={categories} />
+                  <div key={activity.slug} id={`activity-${activity.slug}`}>
+                    <ActivityCard activity={activity} />
                   </div>
                 ))
               )}
@@ -57,8 +50,8 @@ const AgendaPage = async () => {
                 </Card>
               ) : (
                 sortedPast.map((activity) => (
-                  <div key={activity.id} id={`activity-${activity.id}`}>
-                    <ActivityCard activity={activity} categories={categories} />
+                  <div key={activity.slug} id={`activity-${activity.slug}`}>
+                    <ActivityCard activity={activity} />
                   </div>
                 ))
               )}

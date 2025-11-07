@@ -3,10 +3,10 @@ import Image from "next/image";
 import { UpcomingActivitiesSidebar } from "~/components/activities/UpcomingActivitiesSidebar";
 import Hero from "~/components/Hero";
 import Social from "~/components/Social";
-import { getAllActivities } from "~/lib/wordpress";
+import { wpGraphQL } from "~/lib/wordpress";
 
 export default async function HomePage() {
-  const activities = await getAllActivities();
+  const activities = await wpGraphQL.getActivities();
 
   return (
     <main className="container relative mx-auto grow px-4 pt-8 pb-2">

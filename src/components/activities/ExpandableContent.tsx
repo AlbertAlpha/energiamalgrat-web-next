@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
@@ -42,7 +42,7 @@ export const ExpandableContent = ({ children }: ExpandableContentProps) => {
           {children}
         </div>
         {!isExpanded && (
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-background to-transparent" />
         )}
       </div>
       <div className="flex justify-end">
