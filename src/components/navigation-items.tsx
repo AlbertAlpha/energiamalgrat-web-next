@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface NavigationItemsProps {
-  onItemClick: () => void;
+  onItemClick?: () => void;
 }
 
 export const NavigationItems = ({ onItemClick }: NavigationItemsProps) => {
