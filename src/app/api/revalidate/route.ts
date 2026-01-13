@@ -21,11 +21,7 @@ function mapWordPressPathToNextRoute(wordPressPath: string): Route | null {
   }
 }
 
-export default async function handler(request: NextRequest) {
-  if (request.method !== "POST" && request.method !== "GET") {
-    return NextResponse.json({ error: "Method Not Allowed" }, { status: 405 });
-  }
-
+async function handler(request: NextRequest) {
   try {
     // Content Revalidation Tracker plugin sends secret and path as params in the URL
     const searchParams = request.nextUrl.searchParams;
@@ -99,4 +95,12 @@ export default async function handler(request: NextRequest) {
       { status: 500 },
     );
   }
+}
+
+export async function GET(request: NextRequest) {
+  return handler(request);
+}
+
+export async function POST(request: NextRequest) {
+  return handler(request);
 }
