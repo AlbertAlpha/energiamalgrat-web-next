@@ -21,10 +21,13 @@ function mapWordPressPathToNextRoute(wordPressPath: string): Route | null {
   }
 }
 
-export async function GET(request: NextRequest) {
+export default async function handler(request: NextRequest) {
+  if (request.method !== "POST" && request.method !== "GET") {
+    return NextResponse.json({ error: "Method Not Allowed" }, { status: 405 });
+  }
+
   try {
     // Content Revalidation Tracker plugin sends secret and path as params in the URL
-
     const searchParams = request.nextUrl.searchParams;
     const secret = searchParams.get("secret");
     const path = searchParams.get("path");
