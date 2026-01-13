@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Social = () => {
   return (
     <div className="mx-auto max-w-2xl pt-10">
@@ -11,9 +13,9 @@ const Social = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <img
-              height="48"
-              width="48"
+            <Image
+              height={48}
+              width={48}
               src="https://cdn.simpleicons.org/instagram"
               alt="logo instagram"
             />
@@ -25,9 +27,9 @@ const Social = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <img
-              height="48"
-              width="48"
+            <Image
+              height={48}
+              width={48}
               src="https://cdn.simpleicons.org/telegram"
               alt="logo telegram"
             />
@@ -39,9 +41,9 @@ const Social = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <img
-              height="48"
-              width="48"
+            <Image
+              height={48}
+              width={48}
               src="https://cdn.simpleicons.org/x/black/white"
               alt="logo X (twitter)"
             />
