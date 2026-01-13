@@ -21,12 +21,13 @@ function mapWordPressPathToNextRoute(wordPressPath: string): Route | null {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const requestBody = await request.json();
+    // Content Revalidation Tracker plugin sends secret and path as params in the URL
 
-    // Content Revalidation Tracker plugin sends secret and path in the body
-    const { secret, path } = requestBody;
+    const searchParams = request.nextUrl.searchParams;
+    const secret = searchParams.get("secret");
+    const path = searchParams.get("path");
 
     // Validate secret
     if (!secret || secret !== env.WORDPRESS_SECRET) {

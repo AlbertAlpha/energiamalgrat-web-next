@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const NavigationItems = () => {
+interface NavigationItemsProps {
+  onItemClick: () => void;
+}
+
+export const NavigationItems = ({ onItemClick }: NavigationItemsProps) => {
   const pathname = usePathname();
 
   return (
@@ -12,6 +16,7 @@ export const NavigationItems = () => {
         <Link
           href="/"
           className={`transition-colors hover:text-primary ${pathname === "/" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
+          onNavigate={onItemClick}
         >
           Inici
         </Link>
@@ -20,6 +25,7 @@ export const NavigationItems = () => {
         <Link
           href="/projects"
           className={`transition-colors hover:text-primary ${pathname === "/projects" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
+          onNavigate={onItemClick}
         >
           Projectes
         </Link>
@@ -28,6 +34,7 @@ export const NavigationItems = () => {
         <Link
           href="/agenda"
           className={`transition-colors hover:text-primary ${pathname === "/agenda" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
+          onNavigate={onItemClick}
         >
           Agenda
         </Link>
@@ -36,6 +43,7 @@ export const NavigationItems = () => {
         <Link
           href="/contact"
           className={`transition-colors hover:text-primary ${pathname === "/contact" ? "border-primary border-b-2 font-semibold text-primary" : ""}`}
+          onNavigate={onItemClick}
         >
           Contacte
         </Link>

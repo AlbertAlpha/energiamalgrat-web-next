@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { MenuIcon } from "lucide-react";
-
+import { useState } from "react";
+import { NavigationItems } from "./navigation-items";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -12,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { NavigationItems } from "./navigation-items";
 
 export const NavigationMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +30,7 @@ export const NavigationMobile = () => {
           <SheetDescription>Menú de navegació</SheetDescription>
           <nav className="mt-4 flex flex-col space-y-4">
             <ul className="flex flex-col space-y-6">
-              <NavigationItems />
+              <NavigationItems onItemClick={() => setIsOpen(false)} />
             </ul>
           </nav>
         </SheetHeader>
