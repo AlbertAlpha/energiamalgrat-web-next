@@ -18,21 +18,11 @@ const Social = () => {
               width={48}
               src="https://cdn.simpleicons.org/instagram"
               alt="logo instagram"
+              unoptimized
             />
           </a>
-          <a
-            href="https://t.me/+hi_kKSo2UQY4ODNk"
-            title="Telegram"
-            className="block"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image
-              height={48}
-              width={48}
-              src="https://cdn.simpleicons.org/telegram"
-              alt="logo telegram"
-            />
+          <a href="https://t.me/+hi_kKSo2UQY4ODNk" title="Telegram" className="block" target="_blank" rel="noreferrer">
+            <Image height={48} width={48} src="https://cdn.simpleicons.org/telegram" alt="logo telegram" unoptimized />
           </a>
           <a
             href="https://x.com/EnergiaMalgrat?t=Ec9S6K2wD9Dfq9CIdKbN3w&s=09"
@@ -46,6 +36,7 @@ const Social = () => {
               width={48}
               src="https://cdn.simpleicons.org/x/black/white"
               alt="logo X (twitter)"
+              unoptimized
             />
           </a>
         </div>
